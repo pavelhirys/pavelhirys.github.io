@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roomscapes · Pavel Hirys</title>
+<meta name="description" content="Case study: Lead Game Designer / Producer on Roomscapes at RedBarkGames.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: case-study long read — overview with jump links, then one feature per block: text first, screenshots below */
+:root{
+  --bg:#10151d; --surface:#171e29; --line:#2a3443; --fg:#e4e9f0; --muted:#8e9aab;
+  --accent:#f0a33a; --accent-ink:#1a1206; --todo:#66728a; --scrim:rgba(6,9,14,.92);
+  --display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#eef1f5; --surface:#ffffff; --line:#d3d9e2; --fg:#151b24; --muted:#5a6575;
+  --accent:#b8650a; --accent-ink:#ffffff; --todo:#8e98a8; --scrim:rgba(14,18,24,.9); color-scheme:light } }
+:root[data-theme="light"]{
+  --bg:#eef1f5; --surface:#ffffff; --line:#d3d9e2; --fg:#151b24; --muted:#5a6575;
+  --accent:#b8650a; --accent-ink:#ffffff; --todo:#8e98a8; --scrim:rgba(14,18,24,.9); color-scheme:light }
+
+*{box-sizing:border-box}
+html{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+img{max-width:100%}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:72px;padding-block:40px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.label{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.chip{font:12px var(--mono);padding:4px 8px;border:1px solid var(--line);color:var(--muted)}
+.todo{color:var(--todo)!important;font-style:italic}
+
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+nav .back{font:500 14px var(--mono);color:var(--fg);text-decoration:none;padding:10px 0}
+nav .back:hover{color:var(--accent)}
+nav .id{font:600 15px var(--display);letter-spacing:.04em;color:var(--muted)}
+
+.hero{display:flex;flex-direction:column;gap:20px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px}
+.hero h1{font-size:clamp(40px,7vw,80px);font-weight:700}
+.hero .lede{font-size:19px;color:var(--muted);max-width:60ch}
+.hero .lede b{color:var(--fg);font-weight:500}
+
+.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line);max-width:100%;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--line) 55%,transparent) 14px 15px)}
+.ph-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph{font:12px var(--mono);color:var(--muted);background:var(--surface);padding:6px 10px;border:1px solid var(--line);text-align:center;margin:12px}
+.keyart{aspect-ratio:21/9}
+
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--surface);margin:0}
+.facts div{padding:18px 20px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-width:0}
+.facts div:first-child{border-left:0}
+.facts dd{margin:0;font:600 18px var(--display)}
+
+/* Overview */
+.overview h2{font-size:26px;margin-bottom:8px}
+.overview>p{color:var(--muted);max-width:62ch;margin-bottom:24px}
+.toc{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.toc a{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg)}
+.toc .n{font:500 13px var(--mono);color:var(--accent)}
+.toc b{font:600 19px var(--display)}
+.toc span.d{display:block;color:var(--muted);font-size:15px;margin-top:2px}
+.toc .go{font:14px var(--mono);color:var(--muted)}
+@media (hover:hover){ .toc a:hover b,.toc a:hover .go{color:var(--accent)} }
+.toc .key{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);padding:2px 6px;margin-left:10px;vertical-align:3px}
+
+/* Feature blocks */
+.feature{display:flex;flex-direction:column;gap:28px;scroll-margin-top:24px;padding-top:56px;border-top:1px solid var(--line)}
+.feature .head{display:flex;flex-direction:column;gap:12px}
+.feature h2{font-size:clamp(30px,4.5vw,44px)}
+.feature .lede{font-size:18px;color:var(--muted);max-width:62ch}
+.text{display:flex;flex-direction:column;gap:22px;max-width:66ch}
+.text h3{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.text p{color:var(--muted)}
+.text ul{margin:0;padding-left:20px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.text li b{color:var(--fg);font-weight:500}
+
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.shot{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.shot.wide{grid-column:1/-1}
+.shot button{all:unset;display:block;cursor:zoom-in;aspect-ratio:16/9;max-width:100%}
+.shot button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.shot figcaption{font-size:14px;color:var(--muted)}
+.feature .top{font:13px var(--mono);color:var(--muted);text-decoration:none;align-self:flex-start}
+.feature .top:hover{color:var(--accent)}
+
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%}
+dialog::backdrop{background:var(--scrim)}
+dialog .box{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+dialog img{max-height:82vh;object-fit:contain;border:1px solid var(--line)}
+dialog p{color:#c9d1dc;font-size:14px;text-align:center;max-width:70ch}
+dialog .close{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);
+  font:500 14px var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--line);padding:10px 14px;cursor:pointer}
+
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px}
+.next a{font:600 20px var(--display);text-decoration:none}
+footer{font:12px var(--mono);color:var(--muted);text-align:center}
+
+@media (max-width:760px){
+  .wrap{gap:56px;padding-block:20px 48px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts div:nth-child(3){border-left:0}
+  .facts div:nth-child(n+3){border-top:1px solid var(--line)}
+  .shots{grid-template-columns:1fr}
+  .keyart{aspect-ratio:16/10}
+  .toc a{grid-template-columns:36px minmax(0,1fr)}
+  .toc .go{display:none}
+  .feature{padding-top:40px;gap:22px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="back" href="index.html">← All work</a>
+    <span class="id">PAVEL HIRYS</span>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="meta"><span class="chip">RedBarkGames</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
+    <h1>Roomscapes</h1>
+    <p class="lede">As Lead Game Designer and Producer I shaped the product vision, turned it into a roadmap, and built the design team.</p>
+    <div class="ph-box keyart">
+      <img src="images/roomscapes-keyart.jpg" alt="Roomscapes key art" data-optional>
+      <span class="ph">Key art · images/roomscapes-keyart.jpg</span>
+    </div>
+  </header>
+
+  <dl class="facts">
+    <div><dt class="label">Role</dt><dd>Lead Game Designer / Producer</dd></div>
+    <div><dt class="label">Period</dt><dd>06/2021 – 06/2022</dd></div>
+    <div><dt class="label">Studio</dt><dd>RedBarkGames</dd></div>
+    <div><dt class="label">Platform</dt><dd>Mobile</dd></div>
+  </dl>
+
+  <section class="overview">
+    <h2>Overview</h2>
+    <p>Each block below follows the same order: the goal, what I did, the result, and screenshots.</p>
+    <ol class="toc">
+      <li><a href="#vision"><span class="n">01</span><span><b>Product vision & roadmap</b><span class="d">From high-level vision to concrete priorities.</span></span><span class="go">↓</span></a></li>
+      <li><a href="#team"><span class="n">02</span><span><b>Building the design team</b><span class="d">Growing a small team from scratch.</span></span><span class="go">↓</span></a></li>
+    </ol>
+  </section>
+
+  <section class="feature" id="vision">
+    <div class="head">
+      <span class="label">Feature 01</span>
+      <h2>Product vision & roadmap</h2>
+      <p class="lede">From high-level vision to concrete priorities.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What problem this solved for players or for the team.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Helped shape the high-level product vision</b></li>
+        <li><b>Translated it into roadmap priorities</b> and core design decisions</li>
+        <li class="todo">Add a detail: a key decision and why you made it</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric: what changed after this shipped.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/roomscapes-vision-1.jpg" alt="" data-optional><span class="ph">images/roomscapes-vision-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/roomscapes-vision-2.jpg" alt="" data-optional><span class="ph">images/roomscapes-vision-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/roomscapes-vision-3.jpg" alt="" data-optional><span class="ph">images/roomscapes-vision-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+  <section class="feature" id="team">
+    <div class="head">
+      <span class="label">Feature 02</span>
+      <h2>Building the design team</h2>
+      <p class="lede">Growing a small team from scratch.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What problem this solved for players or for the team.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Hired and mentored designers</b>, building a small design team from the ground up</li>
+        <li class="todo">Add a detail: a key decision and why you made it</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric: what changed after this shipped.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/roomscapes-team-1.jpg" alt="" data-optional><span class="ph">images/roomscapes-team-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/roomscapes-team-2.jpg" alt="" data-optional><span class="ph">images/roomscapes-team-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/roomscapes-team-3.jpg" alt="" data-optional><span class="ph">images/roomscapes-team-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <div class="next">
+    <a href="index.html">← All work</a>
+    <a href="cradle-of-empire.html">Next: Cradle of Empire →</a>
+  </div>
+  <footer>© 2026 Pavel Hirys</footer>
+</div>
+
+<dialog id="lightbox" aria-label="Screenshot">
+  <div class="box">
+    <button class="close" type="button" id="lb-close">Close ✕</button>
+    <img id="lb-img" alt="">
+    <p id="lb-cap"></p>
+  </div>
+</dialog>
+
+<script>
+// Missing images are removed so the placeholder shows; real files appear automatically once added.
+document.querySelectorAll('img[data-optional]').forEach(function(img){
+  var ph = img.parentNode.querySelector('.ph');
+  function ok(){ if (ph) ph.hidden = true; }
+  function drop(){ img.remove(); }
+  if (img.complete){ img.naturalWidth > 0 ? ok() : drop(); }
+  else { img.addEventListener('load', ok); img.addEventListener('error', drop); }
+});
+var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
+document.querySelectorAll('.shot button').forEach(function(btn, i){
+  btn.setAttribute('aria-label', 'Enlarge screenshot ' + (i + 1));
+  btn.addEventListener('click', function(){
+    var img = btn.querySelector('img');
+    if (!img || !dlg.showModal) return;
+    lbImg.src = img.src;
+    lbCap.textContent = btn.parentNode.querySelector('figcaption').textContent;
+    dlg.showModal();
+  });
+});
+document.getElementById('lb-close').addEventListener('click', function(){ dlg.close(); });
+dlg.addEventListener('click', function(e){ if (e.target === dlg || e.target.classList.contains('box')) dlg.close(); });
+</script>
+</body>
+</html>

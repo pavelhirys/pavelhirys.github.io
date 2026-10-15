@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>War Robots: Frontiers · Pavel Hirys</title>
+<meta name="description" content="Case study: Meta Team Lead on War Robots: Frontiers at MY.GAMES. Robot Construction, customisation, hangar, inventory, main menu, tutorial, post-battle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: case-study long read — overview with jump links, then one feature per block: text first, screenshots below */
+:root{
+  --bg:#10151d; --surface:#171e29; --line:#2a3443; --fg:#e4e9f0; --muted:#8e9aab;
+  --accent:#f0a33a; --accent-ink:#1a1206; --todo:#66728a; --scrim:rgba(6,9,14,.92);
+  --display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#eef1f5; --surface:#ffffff; --line:#d3d9e2; --fg:#151b24; --muted:#5a6575;
+  --accent:#b8650a; --accent-ink:#ffffff; --todo:#8e98a8; --scrim:rgba(14,18,24,.9); color-scheme:light } }
+:root[data-theme="light"]{
+  --bg:#eef1f5; --surface:#ffffff; --line:#d3d9e2; --fg:#151b24; --muted:#5a6575;
+  --accent:#b8650a; --accent-ink:#ffffff; --todo:#8e98a8; --scrim:rgba(14,18,24,.9); color-scheme:light }
+
+*{box-sizing:border-box}
+html{padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+img{max-width:100%}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:72px;padding-block:40px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.label{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.chip{font:12px var(--mono);padding:4px 8px;border:1px solid var(--line);color:var(--muted)}
+.todo{color:var(--todo)!important;font-style:italic}
+
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+nav .back{font:500 14px var(--mono);color:var(--fg);text-decoration:none;padding:10px 0}
+nav .back:hover{color:var(--accent)}
+nav .id{font:600 15px var(--display);letter-spacing:.04em;color:var(--muted)}
+
+.hero{display:flex;flex-direction:column;gap:20px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px}
+.hero h1{font-size:clamp(40px,7vw,80px);font-weight:700}
+.hero .lede{font-size:19px;color:var(--muted);max-width:60ch}
+.hero .lede b{color:var(--fg);font-weight:500}
+
+.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line);max-width:100%;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--line) 55%,transparent) 14px 15px)}
+.ph-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph{font:12px var(--mono);color:var(--muted);background:var(--surface);padding:6px 10px;border:1px solid var(--line);text-align:center;margin:12px}
+.keyart{aspect-ratio:21/9}
+
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--surface);margin:0}
+.facts div{padding:18px 20px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-width:0}
+.facts div:first-child{border-left:0}
+.facts dd{margin:0;font:600 18px var(--display)}
+
+/* Overview */
+.overview h2{font-size:26px;margin-bottom:8px}
+.overview>p{color:var(--muted);max-width:62ch;margin-bottom:24px}
+.toc{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.toc a{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg)}
+.toc .n{font:500 13px var(--mono);color:var(--accent)}
+.toc b{font:600 19px var(--display)}
+.toc span.d{display:block;color:var(--muted);font-size:15px;margin-top:2px}
+.toc .go{font:14px var(--mono);color:var(--muted)}
+@media (hover:hover){ .toc a:hover b,.toc a:hover .go{color:var(--accent)} }
+.toc .key{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);padding:2px 6px;margin-left:10px;vertical-align:3px}
+
+/* Feature blocks */
+.feature{display:flex;flex-direction:column;gap:28px;scroll-margin-top:24px;padding-top:56px;border-top:1px solid var(--line)}
+.feature .head{display:flex;flex-direction:column;gap:12px}
+.feature h2{font-size:clamp(30px,4.5vw,44px)}
+.feature .lede{font-size:18px;color:var(--muted);max-width:62ch}
+.text{display:flex;flex-direction:column;gap:22px;max-width:66ch}
+.text h3{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.text p{color:var(--muted)}
+.text ul{margin:0;padding-left:20px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.text li b{color:var(--fg);font-weight:500}
+
+.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.shot{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.shot.wide{grid-column:1/-1}
+.shot button{all:unset;display:block;cursor:zoom-in;aspect-ratio:16/9;max-width:100%}
+.shot button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.shot figcaption{font-size:14px;color:var(--muted)}
+.feature .top{font:13px var(--mono);color:var(--muted);text-decoration:none;align-self:flex-start}
+.feature .top:hover{color:var(--accent)}
+
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%}
+dialog::backdrop{background:var(--scrim)}
+dialog .box{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+dialog img{max-height:82vh;object-fit:contain;border:1px solid var(--line)}
+dialog p{color:#c9d1dc;font-size:14px;text-align:center;max-width:70ch}
+dialog .close{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:calc(env(safe-area-inset-right,0px) + 12px);
+  font:500 14px var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--line);padding:10px 14px;cursor:pointer}
+
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px}
+.next a{font:600 20px var(--display);text-decoration:none}
+footer{font:12px var(--mono);color:var(--muted);text-align:center}
+
+@media (max-width:760px){
+  .wrap{gap:56px;padding-block:20px 48px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facts div:nth-child(3){border-left:0}
+  .facts div:nth-child(n+3){border-top:1px solid var(--line)}
+  .shots{grid-template-columns:1fr}
+  .keyart{aspect-ratio:16/10}
+  .toc a{grid-template-columns:36px minmax(0,1fr)}
+  .toc .go{display:none}
+  .feature{padding-top:40px;gap:22px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="back" href="index.html">← All work</a>
+    <span class="id">PAVEL HIRYS</span>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="meta"><span class="chip">MY.GAMES</span><span class="chip">PC · Console</span><span class="chip">Mech shooter</span></div>
+    <h1>War Robots: Frontiers</h1>
+    <p class="lede">Team Lead of the Meta Team. I designed the player's path outside of combat: <b>building and customising a robot</b>, the hangar, inventory, main menu, tutorial and post-battle progression.</p>
+    <div class="ph-box keyart">
+      <img src="images/wrf-keyart.jpg" alt="War Robots: Frontiers key art" data-optional>
+      <span class="ph">Key art · images/wrf-keyart.jpg</span>
+    </div>
+  </header>
+
+  <dl class="facts">
+    <div><dt class="label">Role</dt><dd>Team Lead, Meta</dd></div>
+    <div><dt class="label">Period</dt><dd>05/2023 – 11/2025</dd></div>
+    <div><dt class="label">Team</dt><dd class="todo">N designers</dd></div>
+    <div><dt class="label">Features</dt><dd>7 owned</dd></div>
+  </dl>
+
+  <section class="overview">
+    <h2>Overview</h2>
+    <p>Everything a player touches between matches. Each feature below follows the same order: the goal, what I designed, the result, and screenshots.</p>
+    <ol class="toc">
+      <li><a href="#construction"><span class="n">01</span><span><b>Robot Construction</b><span class="key">Key feature</span><span class="d">Build a unique robot and share it with other players</span></span><span class="go">↓</span></a></li>
+      <li><a href="#customisation"><span class="n">02</span><span><b>Robot Customisation</b><span class="d">Visual personalisation of the player's robot</span></span><span class="go">↓</span></a></li>
+      <li><a href="#hangar"><span class="n">03</span><span><b>Robot Hangar</b><span class="d">The player's hangar and the game start sequence</span></span><span class="go">↓</span></a></li>
+      <li><a href="#inventory"><span class="n">04</span><span><b>Inventory</b><span class="d">Filters, sorting and display priorities</span></span><span class="go">↓</span></a></li>
+      <li><a href="#menu"><span class="n">05</span><span><b>Main Menu &amp; Meta Navigation</b><span class="d">Tabs, buttons, promo windows and the player flow</span></span><span class="go">↓</span></a></li>
+      <li><a href="#tutorial"><span class="n">06</span><span><b>Tutorial</b><span class="d">Design and tuning of the first-time experience</span></span><span class="go">↓</span></a></li>
+      <li><a href="#postbattle"><span class="n">07</span><span><b>Post-Battle Screen</b><span class="d">Score, rewards and progression after each match</span></span><span class="go">↓</span></a></li>
+    </ol>
+  </section>
+
+  <!-- 01 -->
+  <section class="feature" id="construction">
+    <div class="head">
+      <span class="label">Feature 01 · Key feature</span>
+      <h2>Robot Construction</h2>
+      <p class="lede">The core feature of the game: players assemble their own robot from parts and share their builds with others through the in-game sharing system.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">Why the feature mattered: what player need it answered, what the team wanted from it (self-expression, depth, long-term retention).</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Owned the design</b> of the construction system end to end</li>
+        <li><b>Designed build sharing:</b> how players publish a robot and how others find and use it</li>
+        <li class="todo">Rules of assembly: slots, part types, constraints, balance between parts</li>
+        <li class="todo">UX of the builder: how a new player makes a first robot without getting lost</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Metric or outcome: share of players who built a custom robot, number of shared builds, feedback from playtests.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/construction-1.jpg" alt="" data-optional><span class="ph">images/construction-1.jpg</span></button><figcaption>The robot builder.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/construction-2.jpg" alt="" data-optional><span class="ph">images/construction-2.jpg</span></button><figcaption>Choosing parts.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/construction-3.jpg" alt="" data-optional><span class="ph">images/construction-3.jpg</span></button><figcaption>Sharing a build.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 02 -->
+  <section class="feature" id="customisation">
+    <div class="head">
+      <span class="label">Feature 02</span>
+      <h2>Robot Customisation</h2>
+      <p class="lede">The system that lets players change how their robot looks and make it recognisably theirs.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What customisation had to achieve for players and for the game (expression, collection, monetization).</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed the customisation system</b> for the player's robot</li>
+        <li class="todo">What can be customised: paints, decals, parts appearance, etc.</li>
+        <li class="todo">How customisation items are earned or bought</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/customisation-1.jpg" alt="" data-optional><span class="ph">images/customisation-1.jpg</span></button><figcaption>Customisation screen.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/customisation-2.jpg" alt="" data-optional><span class="ph">images/customisation-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/customisation-3.jpg" alt="" data-optional><span class="ph">images/customisation-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 03 -->
+  <section class="feature" id="hangar">
+    <div class="head">
+      <span class="label">Feature 03</span>
+      <h2>Robot Hangar</h2>
+      <p class="lede">The player's hangar with their robots, and the animation sequence that plays when the game starts.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What the hangar should make the player feel and do: show off their robots, get into a match quickly.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed the hangar</b> where players see and manage their robots</li>
+        <li><b>Designed the start-up animation sequence</b> that leads the player into the game</li>
+        <li class="todo">Details: camera, timing, what the player can interact with</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/hangar-1.jpg" alt="" data-optional><span class="ph">images/hangar-1.jpg</span></button><figcaption>The hangar.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/hangar-2.jpg" alt="" data-optional><span class="ph">images/hangar-2.jpg</span></button><figcaption>Start sequence storyboard or frame.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/hangar-3.jpg" alt="" data-optional><span class="ph">images/hangar-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 04 -->
+  <section class="feature" id="inventory">
+    <div class="head">
+      <span class="label">Feature 04</span>
+      <h2>Inventory</h2>
+      <p class="lede">How players find the right part or item among everything they own.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">The problem: e.g. a growing collection made items hard to find.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed filters</b> and sorting for the inventory</li>
+        <li><b>Defined display priorities:</b> which items appear first and why</li>
+        <li class="todo">Other rules: new-item markers, stacking, empty states</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/inventory-1.jpg" alt="" data-optional><span class="ph">images/inventory-1.jpg</span></button><figcaption>Inventory with filters.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/inventory-2.jpg" alt="" data-optional><span class="ph">images/inventory-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/inventory-3.jpg" alt="" data-optional><span class="ph">images/inventory-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 05 -->
+  <section class="feature" id="menu">
+    <div class="head">
+      <span class="label">Feature 05</span>
+      <h2>Main Menu &amp; Meta Navigation</h2>
+      <p class="lede">The structure of the main menu and the map of how a player moves through the meta game.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What the menu had to balance: fast access to battle, visibility of offers and events, clarity for new players.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed the main menu:</b> all buttons and tabs</li>
+        <li><b>Designed the promo windows</b> and when they appear</li>
+        <li><b>Built the navigation scheme</b> of the player's movement through the meta</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/menu-1.jpg" alt="" data-optional><span class="ph">images/menu-1.jpg</span></button><figcaption>Meta navigation scheme. A diagram from your design doc works well here.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/menu-2.jpg" alt="" data-optional><span class="ph">images/menu-2.jpg</span></button><figcaption>Main menu.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/menu-3.jpg" alt="" data-optional><span class="ph">images/menu-3.jpg</span></button><figcaption>Promo window.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 06 -->
+  <section class="feature" id="tutorial">
+    <div class="head">
+      <span class="label">Feature 06</span>
+      <h2>Tutorial</h2>
+      <p class="lede">The first-time experience: what a new player learns, in what order, and how quickly they reach their first real match.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What the tutorial had to teach and which drop-off it was meant to fix.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Owned the tutorial:</b> design and tuning</li>
+        <li class="todo">Structure: steps, what is taught in battle vs in the meta</li>
+        <li class="todo">How you tuned it: funnel analytics, playtests, iterations</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Tutorial completion rate or early retention change.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/tutorial-1.jpg" alt="" data-optional><span class="ph">images/tutorial-1.jpg</span></button><figcaption>Tutorial flow or funnel.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/tutorial-2.jpg" alt="" data-optional><span class="ph">images/tutorial-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/tutorial-3.jpg" alt="" data-optional><span class="ph">images/tutorial-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <!-- 07 -->
+  <section class="feature" id="postbattle">
+    <div class="head">
+      <span class="label">Feature 07</span>
+      <h2>Post-Battle Screen</h2>
+      <p class="lede">What the player sees after every match: score, rewards and progress toward their next goal.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">Why this screen matters: it closes every session loop and should push the player into the next match.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed score and reward calculation</b> shown after battle</li>
+        <li><b>Designed how progression is presented</b> on this screen</li>
+        <li class="todo">Order and timing of reveals, what is shown for a win vs a loss</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/postbattle-1.jpg" alt="" data-optional><span class="ph">images/postbattle-1.jpg</span></button><figcaption>Post-battle screen.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/postbattle-2.jpg" alt="" data-optional><span class="ph">images/postbattle-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/postbattle-3.jpg" alt="" data-optional><span class="ph">images/postbattle-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <div class="next">
+    <a href="index.html">← All work</a>
+    <a href="world-of-tanks.html">Next: World of Tanks →</a>
+  </div>
+  <footer>© 2026 Pavel Hirys</footer>
+</div>
+
+<dialog id="lightbox" aria-label="Screenshot">
+  <div class="box">
+    <button class="close" type="button" id="lb-close">Close ✕</button>
+    <img id="lb-img" alt="">
+    <p id="lb-cap"></p>
+  </div>
+</dialog>
+
+<script>
+// Missing images are removed so the placeholder shows; real files appear automatically once added.
+document.querySelectorAll('img[data-optional]').forEach(function(img){
+  var ph = img.parentNode.querySelector('.ph');
+  function ok(){ if (ph) ph.hidden = true; }
+  function drop(){ img.remove(); }
+  if (img.complete){ img.naturalWidth > 0 ? ok() : drop(); }
+  else { img.addEventListener('load', ok); img.addEventListener('error', drop); }
+});
+var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
+document.querySelectorAll('.shot button').forEach(function(btn, i){
+  btn.setAttribute('aria-label', 'Enlarge screenshot ' + (i + 1));
+  btn.addEventListener('click', function(){
+    var img = btn.querySelector('img');
+    if (!img || !dlg.showModal) return;
+    lbImg.src = img.src;
+    lbCap.textContent = btn.parentNode.querySelector('figcaption').textContent;
+    dlg.showModal();
+  });
+});
+document.getElementById('lb-close').addEventListener('click', function(){ dlg.close(); });
+dlg.addEventListener('click', function(e){ if (e.target === dlg || e.target.classList.contains('box')) dlg.close(); });
+</script>
+</body>
+</html>
