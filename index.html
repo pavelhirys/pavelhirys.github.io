@@ -83,6 +83,48 @@ section>header h2{font-size:30px}
 .proj.link .more{font:500 14px var(--mono);color:var(--accent);margin-top:auto;padding-top:6px}
 @media (hover:hover){ .proj.link:hover{border-color:var(--accent)} .proj.link:hover h3{color:var(--accent)} }
 .proj.link:active{border-color:var(--accent)}
+/* Section headings: big display type */
+section>header h2{font-size:clamp(34px,5.5vw,60px);font-weight:700;text-transform:uppercase;letter-spacing:-.01em;line-height:1}
+section>header.big{border-bottom:0;padding-bottom:0;margin-bottom:36px;border-top:1px solid var(--line);padding-top:28px}
+section>header .sub{color:var(--muted);font-size:18px;margin-top:12px}
+
+/* Featured: large media-left cards */
+.featured{display:flex;flex-direction:column;gap:32px}
+.feature-card{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line);
+  text-decoration:none;color:inherit;overflow:hidden;min-height:440px}
+.fc-media{position:relative;overflow:hidden;min-height:280px;display:grid;place-items:center;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--line) 55%,transparent) 14px 15px)}
+.fc-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.fc-media>span{font:12px var(--mono);color:var(--muted);background:var(--surface);padding:6px 10px;border:1px solid var(--line)}
+.fc-media::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(to top,rgba(5,8,12,.75),transparent);pointer-events:none}
+img[src*="order-of-war-cover"]{object-position:center 80%}
+.fc-badge{position:absolute;left:20px;bottom:18px;z-index:1;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#f2f4f7}
+.fc-info{padding:44px 40px;display:flex;flex-direction:column;justify-content:center;gap:14px;min-width:0}
+.fc-num{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.fc-info h3{font-size:clamp(30px,3.4vw,44px);font-weight:700;line-height:1.02}
+.fc-meta{font:500 13px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fc-role{font-size:18px;font-weight:500}
+.fc-info ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:flex;flex-direction:column;gap:6px}
+.fc-tags{color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:14px}
+.fc-cta{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);margin-top:6px}
+.fc-cta i{font-style:normal;display:inline-block;transition:transform .2s ease;color:var(--accent)}
+@media (hover:hover){
+  .feature-card:hover{border-color:var(--accent)}
+  .feature-card:hover .fc-media img{transform:scale(1.04)}
+  .feature-card:hover .fc-cta i{transform:translateX(5px)}
+}
+.feature-card:active{border-color:var(--accent)}
+
+.case-row{margin-top:20px;display:flex;flex-direction:column;gap:8px;padding:24px;border:1px solid var(--line)}
+.case-row .cr-title{font:600 22px var(--display)}
+.case-row .cr-text{color:var(--muted);font-size:15px;max-width:72ch}
+
+@media (max-width:860px){
+  .feature-card{grid-template-columns:1fr;min-height:0}
+  .fc-media{aspect-ratio:16/9;min-height:0}
+  .fc-info{padding:24px 20px 28px}
+}
+@media (prefers-reduced-motion:reduce){ .fc-media img,.fc-cta i{transition:none} }
 .proj.todo{border-style:dashed;border-color:var(--todo);background:transparent}
 .proj.todo h3,.proj.todo p{color:var(--todo)}
 
@@ -160,36 +202,61 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
   </section>
 
   <section id="work">
-    <header><h2>Projects</h2><span class="label">Tap a project for details</span></header>
-    <div class="projects">
-      <a class="proj link feat" href="war-robots-frontiers.html">
-        <div class="cover"><img src="images/war-robots-frontiers-cover.jpg" alt="" data-optional><span>images/war-robots-frontiers-cover.jpg</span></div>
-        <div class="body">
-          <div class="meta"><span class="chip">MY.GAMES</span><span class="chip">05/2023 – 11/2025</span><span class="chip">PC · Console</span><span class="chip">Live PvP mech shooter</span></div>
+    <header class="big"><div><h2>Selected work</h2><p class="sub">Three projects that best show how I design.</p></div></header>
+    <div class="featured">
+      <a class="feature-card" href="war-robots-frontiers.html">
+        <div class="fc-media"><img src="images/war-robots-frontiers-cover.jpg" alt="War Robots: Frontiers cover art" data-optional><span>images/war-robots-frontiers-cover.jpg</span><div class="fc-badge">PC · Console · Live PvP mech shooter</div></div>
+        <div class="fc-info">
+          <div class="fc-num">01 / Featured project</div>
           <h3>War Robots: Frontiers</h3>
-          <div class="role">Senior Game Designer, Team Lead (Meta Team)</div>
+          <div class="fc-meta">MY.GAMES · 05/2023 – 11/2025</div>
+          <div class="fc-role">Senior Game Designer, Team Lead (Meta Team)</div>
           <ul>
             <li>Led the Meta Team; owned progression, tutorial, customisation, robot construction and stats</li>
             <li>Concept to post-release iteration, prototyping in UE5 Blueprints</li>
           </ul>
-          <span class="more">Read case study →</span>
+          <div class="fc-tags">Meta systems · Progression · Robot constructor · Customisation · Onboarding</div>
+          <span class="fc-cta">View project <i>→</i></span>
         </div>
       </a>
-      <a class="proj link feat" href="world-of-tanks.html">
-        <div class="cover"><img src="images/world-of-tanks-cover.jpg" alt="" data-optional><span>images/world-of-tanks-cover.jpg</span></div>
-        <div class="body">
-          <div class="meta"><span class="chip">Wargaming.net</span><span class="chip">11/2007 – 10/2011</span><span class="chip">PC</span><span class="chip">MMO action</span></div>
+      <a class="feature-card" href="world-of-tanks.html">
+        <div class="fc-media"><img src="images/world-of-tanks-cover.jpg" alt="World of Tanks cover art" data-optional><span>images/world-of-tanks-cover.jpg</span><div class="fc-badge">PC · MMO action</div></div>
+        <div class="fc-info">
+          <div class="fc-num">02 / Featured project</div>
           <h3>World of Tanks</h3>
-          <div class="role">Level Designer</div>
+          <div class="fc-meta">Wargaming.net · 11/2007 – 10/2011</div>
+          <div class="fc-role">Level Designer</div>
           <ul>
             <li>Map documentation, technical configuration and optimisation</li>
             <li>Iterated on combat balance with the community</li>
           </ul>
-          <span class="more">Read case study →</span>
+          <div class="fc-tags">Map design · Level documentation · Combat balance · Optimisation</div>
+          <span class="fc-cta">View project <i>→</i></span>
         </div>
       </a>
+      <a class="feature-card" href="order-of-war.html">
+        <div class="fc-media"><img src="images/order-of-war-cover.jpg" alt="Order of War cover art" data-optional><span>images/order-of-war-cover.jpg</span><div class="fc-badge">PC · RTS</div></div>
+        <div class="fc-info">
+          <div class="fc-num">03 / Featured project</div>
+          <h3>Order of War</h3>
+          <div class="fc-meta">Wargaming.net · 11/2007 – 10/2011</div>
+          <div class="fc-role">Level Designer</div>
+          <ul>
+            <li>Designed mission scenarios, unit encounters and multiplayer modes</li>
+            <li>Worked on the base game and the Order of War: Challenge expansion</li>
+          </ul>
+          <div class="fc-tags">Mission design · Multiplayer modes · Unit encounters · Game balance</div>
+          <span class="fc-cta">View project <i>→</i></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="more">
+    <header><h2>More projects</h2><span class="label">Tap a project for details</span></header>
+    <div class="projects">
       <a class="proj link" href="clockmaker.html">
-        <div class="cover"><img src="images/clockmaker-cover.jpg" alt="" data-optional><span>images/clockmaker-cover.jpg</span></div>
+        <div class="cover"><img src="images/clockmaker-cover.jpg" alt="Clockmaker cover art" data-optional><span>images/clockmaker-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Belka Games</span><span class="chip">09/2022 – 02/2023</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
           <h3>Clockmaker</h3>
@@ -202,7 +269,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="roomscapes.html">
-        <div class="cover"><img src="images/roomscapes-cover.jpg" alt="" data-optional><span>images/roomscapes-cover.jpg</span></div>
+        <div class="cover"><img src="images/roomscapes-cover.jpg" alt="Roomscapes cover art" data-optional><span>images/roomscapes-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">RedBarkGames</span><span class="chip">06/2021 – 06/2022</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
           <h3>Roomscapes</h3>
@@ -215,7 +282,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="cradle-of-empire.html">
-        <div class="cover"><img src="images/cradle-of-empire-cover.jpg" alt="" data-optional><span>images/cradle-of-empire-cover.jpg</span></div>
+        <div class="cover"><img src="images/cradle-of-empire-cover.jpg" alt="Cradle of Empire cover art" data-optional><span>images/cradle-of-empire-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Awem Games</span><span class="chip">03/2020 – 02/2021</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
           <h3>Cradle of Empire</h3>
@@ -228,7 +295,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="iron-conquest.html">
-        <div class="cover"><img src="images/iron-conquest-cover.jpg" alt="" data-optional><span>images/iron-conquest-cover.jpg</span></div>
+        <div class="cover"><img src="images/iron-conquest-cover.jpg" alt="Iron Conquest cover art" data-optional><span>images/iron-conquest-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">IGG</span><span class="chip">07/2016 – 12/2019</span><span class="chip">Mobile</span><span class="chip">Live 4X strategy</span></div>
           <h3>Iron Conquest</h3>
@@ -240,21 +307,8 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
           <span class="more">Read case study →</span>
         </div>
       </a>
-      <a class="proj link" href="order-of-war.html">
-        <div class="cover"><img src="images/order-of-war-cover.jpg" alt="" data-optional><span>images/order-of-war-cover.jpg</span></div>
-        <div class="body">
-          <div class="meta"><span class="chip">Wargaming.net</span><span class="chip">11/2007 – 10/2011</span><span class="chip">PC</span><span class="chip">RTS</span></div>
-          <h3>Order of War</h3>
-          <div class="role">Level Designer</div>
-          <ul>
-            <li>Designed mission scenarios, unit encounters and multiplayer modes</li>
-            <li>Worked on the base game and the Order of War: Challenge expansion</li>
-          </ul>
-          <span class="more">Read case study →</span>
-        </div>
-      </a>
       <a class="proj link" href="operation-bagration.html">
-        <div class="cover"><img src="images/operation-bagration-cover.jpg" alt="" data-optional><span>images/operation-bagration-cover.jpg</span></div>
+        <div class="cover"><img src="images/operation-bagration-cover.jpg" alt="Operation Bagration cover art" data-optional><span>images/operation-bagration-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Wargaming.net</span><span class="chip">11/2007 – 10/2011</span><span class="chip">PC</span><span class="chip">RTS</span></div>
           <h3>Operation Bagration</h3>
@@ -267,7 +321,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="a-farewell-to-dragons.html">
-        <div class="cover"><img src="images/a-farewell-to-dragons-cover.jpg" alt="" data-optional><span>images/a-farewell-to-dragons-cover.jpg</span></div>
+        <div class="cover"><img src="images/a-farewell-to-dragons-cover.jpg" alt="A Farewell to Dragons cover art" data-optional><span>images/a-farewell-to-dragons-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Arise Inc.</span><span class="chip">06/2006 – 11/2007</span><span class="chip">PC</span><span class="chip">Party-based RPG</span></div>
           <h3>A Farewell to Dragons</h3>
@@ -280,7 +334,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="great-battles-normandy.html">
-        <div class="cover"><img src="images/great-battles-normandy-cover.jpg" alt="" data-optional><span>images/great-battles-normandy-cover.jpg</span></div>
+        <div class="cover"><img src="images/great-battles-normandy-cover.jpg" alt="Great Battles: Landing in Normandy cover art" data-optional><span>images/great-battles-normandy-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Arise Inc.</span><span class="chip">06/2006 – 11/2007</span><span class="chip">PC</span><span class="chip">RTS</span></div>
           <h3>Great Battles: Landing in Normandy</h3>
@@ -293,7 +347,7 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
         </div>
       </a>
       <a class="proj link" href="great-battles-tobruk.html">
-        <div class="cover"><img src="images/great-battles-tobruk-cover.jpg" alt="" data-optional><span>images/great-battles-tobruk-cover.jpg</span></div>
+        <div class="cover"><img src="images/great-battles-tobruk-cover.jpg" alt="Great Battles: Battle of Tobruk cover art" data-optional><span>images/great-battles-tobruk-cover.jpg</span></div>
         <div class="body">
           <div class="meta"><span class="chip">Arise Inc.</span><span class="chip">06/2006 – 11/2007</span><span class="chip">PC</span><span class="chip">RTS</span></div>
           <h3>Great Battles: Battle of Tobruk</h3>
@@ -305,17 +359,11 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
           <span class="more">Read case study →</span>
         </div>
       </a>
-      <article class="proj">
-        <div class="cover"><span>Add a page from the document</span></div>
-        <div class="body">
-          <div class="meta"><span class="chip">Case study</span><span class="chip">Mobile</span><span class="chip">2026</span></div>
-          <h3>Lost Prison: monetization audit</h3>
-          <ul>
-            <li>Full audit of a live mobile game: retention, economy, store, IAP, LiveOps, ads and UX</li>
-            <li>Proposals for new features with a priority table by impact and cost</li>
-          </ul>
-        </div>
-      </article>
+    </div>
+    <div class="case-row">
+      <span class="label">Case study · Mobile · 2026</span>
+      <span class="cr-title">Lost Prison: monetization audit</span>
+      <span class="cr-text">Full audit of a live mobile game: retention, economy, store, IAP, LiveOps, ads and UX, with feature proposals ranked by impact and cost.</span>
     </div>
   </section>
 
