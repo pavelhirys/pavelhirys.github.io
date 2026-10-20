@@ -117,24 +117,58 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
   .toc .go{display:none}
   .feature{padding-top:40px;gap:22px}
 }
+/* v2: wide layout + cover hero */
+body{padding-left:0;padding-right:0}
+.wrap{max-width:1360px;padding-left:max(16px,4vw,env(safe-area-inset-left,0px));padding-right:max(16px,4vw,env(safe-area-inset-right,0px));padding-block:56px 64px}
+
+.cover-hero{position:relative;isolation:isolate;overflow:hidden;min-height:clamp(460px,74vh,860px);display:flex;flex-direction:column;
+  background:#0b0f15;color:#f2f4f7}
+.ch-img{position:absolute;inset:0;z-index:-2;display:grid;place-items:center;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(255,255,255,.05) 14px 15px),#121821}
+.ch-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ch-img .ph{background:#121821;color:#9aa5b5;border-color:#2a3443}
+.cover-hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(to top,rgba(8,11,16,.97) 0%,rgba(8,11,16,.72) 30%,rgba(8,11,16,.12) 62%,rgba(8,11,16,.55) 100%)}
+.ch-inner{flex:1;width:100%;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;
+  padding-left:max(16px,4vw,env(safe-area-inset-left,0px));padding-right:max(16px,4vw,env(safe-area-inset-right,0px));padding-block:12px clamp(32px,6vh,72px)}
+.cover-hero nav .back{color:#f2f4f7}
+.cover-hero nav .back:hover{color:var(--accent)}
+.cover-hero nav .id{color:rgba(242,244,247,.7)}
+.ch-text{margin-top:auto;display:flex;flex-direction:column;gap:18px;max-width:920px;padding-top:120px}
+.ch-text .meta{display:flex;flex-wrap:wrap;gap:8px}
+.ch-text .chip{color:#e7ebf1;border-color:rgba(255,255,255,.3);background:rgba(8,11,16,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.cover-hero h1{font-size:clamp(44px,8vw,112px);font-weight:700;line-height:.95;letter-spacing:-.015em;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.ch-text .lede{font-size:clamp(17px,1.5vw,20px);color:#d3d9e2;max-width:62ch}
+.ch-text .lede b{color:#fff;font-weight:500}
+.wrap>.facts:first-child{margin-top:0}
+
+@media (max-width:760px){
+  .cover-hero{min-height:clamp(440px,82vh,640px)}
+  .ch-text{padding-top:80px;gap:14px}
+  .wrap{padding-block:36px 48px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav>
+<header class="cover-hero" id="top">
+  <div class="ch-img">
+    <img src="images/roomscapes-keyart.jpg" data-fallback="images/roomscapes-cover.jpg" alt="Roomscapes key art" data-optional>
+    <span class="ph">Key art · images/roomscapes-keyart.jpg</span>
+  </div>
+  <div class="ch-inner">
+    <nav>
     <a class="back" href="index.html">← All work</a>
     <span class="id">PAVEL HIRYS</span>
   </nav>
-
-  <header class="hero" id="top">
-    <div class="meta"><span class="chip">RedBarkGames</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
-    <h1>Roomscapes</h1>
-    <p class="lede">As Lead Game Designer and Producer I shaped the product vision, turned it into a roadmap, and built the design team.</p>
-    <div class="ph-box keyart">
-      <img src="images/roomscapes-keyart.jpg" alt="Roomscapes key art" data-optional>
-      <span class="ph">Key art · images/roomscapes-keyart.jpg</span>
+    <div class="ch-text">
+      <div class="meta"><span class="chip">RedBarkGames</span><span class="chip">Mobile</span><span class="chip">Match-3</span></div>
+      <h1>Roomscapes</h1>
+      <p class="lede">As Lead Game Designer and Producer I shaped the product vision, turned it into a roadmap, and built the design team.</p>
     </div>
-  </header>
+  </div>
+</header>
+
+<div class="wrap">
 
   <dl class="facts">
     <div><dt class="label">Role</dt><dd>Lead Game Designer / Producer</dd></div>
@@ -216,9 +250,13 @@ footer{font:12px var(--mono);color:var(--muted);text-align:center}
 document.querySelectorAll('img[data-optional]').forEach(function(img){
   var ph = img.parentNode.querySelector('.ph');
   function ok(){ if (ph) ph.hidden = true; }
-  function drop(){ img.remove(); }
+  function drop(){
+    var fb = img.getAttribute('data-fallback');
+    if (fb){ img.removeAttribute('data-fallback'); img.src = fb; return; }
+    img.remove();
+  }
+  img.addEventListener('load', ok); img.addEventListener('error', drop);
   if (img.complete){ img.naturalWidth > 0 ? ok() : drop(); }
-  else { img.addEventListener('load', ok); img.addEventListener('error', drop); }
 });
 var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
 document.querySelectorAll('.shot button').forEach(function(btn, i){
