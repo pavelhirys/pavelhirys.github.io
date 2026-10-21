@@ -147,6 +147,16 @@ body{padding-left:0;padding-right:0}
   .ch-text{padding-top:80px;gap:14px}
   .wrap{padding-block:36px 48px}
 }
+/* lightbox navigation */
+dialog .nav{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:64px;font:400 34px/1 var(--display);
+  background:rgba(8,11,16,.6);color:#f2f4f7;border:1px solid rgba(255,255,255,.2);cursor:pointer}
+dialog .nav:hover{border-color:var(--accent);color:var(--accent)}
+dialog .prev{left:calc(env(safe-area-inset-left,0px) + 12px)}
+dialog .next-btn{right:calc(env(safe-area-inset-right,0px) + 12px)}
+dialog.single .nav{display:none}
+@media (max-width:760px){ dialog .nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:none;width:56px;height:48px} }
+/* shot frame fix */
+.shot button.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -242,7 +252,9 @@ body{padding-left:0;padding-right:0}
 <dialog id="lightbox" aria-label="Screenshot">
   <div class="box">
     <button class="close" type="button" id="lb-close">Close ✕</button>
+    <button class="nav prev" type="button" id="lb-prev" aria-label="Previous screenshot">‹</button>
     <img id="lb-img" alt="">
+    <button class="nav next-btn" type="button" id="lb-next" aria-label="Next screenshot">›</button>
     <p id="lb-cap"></p>
   </div>
 </dialog>
@@ -261,15 +273,35 @@ document.querySelectorAll('img[data-optional]').forEach(function(img){
   if (img.complete){ img.naturalWidth > 0 ? ok() : drop(); }
 });
 var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
+var lbList = [], lbIdx = 0;
+function lbShow(i){
+  lbIdx = (i + lbList.length) % lbList.length;
+  var b = lbList[lbIdx], img = b.querySelector('img');
+  lbImg.src = img.src;
+  lbCap.textContent = b.parentNode.querySelector('figcaption').textContent + '  (' + (lbIdx + 1) + ' / ' + lbList.length + ')';
+}
 document.querySelectorAll('.shot button').forEach(function(btn, i){
   btn.setAttribute('aria-label', 'Enlarge screenshot ' + (i + 1));
   btn.addEventListener('click', function(){
-    var img = btn.querySelector('img');
-    if (!img || !dlg.showModal) return;
-    lbImg.src = img.src;
-    lbCap.textContent = btn.parentNode.querySelector('figcaption').textContent;
+    if (!btn.querySelector('img') || !dlg.showModal) return;
+    var group = btn.closest('.shots');
+    lbList = Array.prototype.filter.call(group.querySelectorAll('.shot button'), function(b){ return b.querySelector('img'); });
+    lbShow(lbList.indexOf(btn));
+    dlg.classList.toggle('single', lbList.length < 2);
     dlg.showModal();
   });
+});
+document.getElementById('lb-prev').addEventListener('click', function(e){ e.stopPropagation(); lbShow(lbIdx - 1); });
+document.getElementById('lb-next').addEventListener('click', function(e){ e.stopPropagation(); lbShow(lbIdx + 1); });
+dlg.addEventListener('keydown', function(e){
+  if (e.key === 'ArrowLeft'){ lbShow(lbIdx - 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight'){ lbShow(lbIdx + 1); e.preventDefault(); }
+});
+var tx = null;
+dlg.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+dlg.addEventListener('touchend', function(e){
+  if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) > 50 && lbList.length > 1) lbShow(lbIdx + (dx < 0 ? 1 : -1));
 });
 document.getElementById('lb-close').addEventListener('click', function(){ dlg.close(); });
 dlg.addEventListener('click', function(e){ if (e.target === dlg || e.target.classList.contains('box')) dlg.close(); });

@@ -147,6 +147,16 @@ body{padding-left:0;padding-right:0}
   .ch-text{padding-top:80px;gap:14px}
   .wrap{padding-block:36px 48px}
 }
+/* lightbox navigation */
+dialog .nav{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:64px;font:400 34px/1 var(--display);
+  background:rgba(8,11,16,.6);color:#f2f4f7;border:1px solid rgba(255,255,255,.2);cursor:pointer}
+dialog .nav:hover{border-color:var(--accent);color:var(--accent)}
+dialog .prev{left:calc(env(safe-area-inset-left,0px) + 12px)}
+dialog .next-btn{right:calc(env(safe-area-inset-right,0px) + 12px)}
+dialog.single .nav{display:none}
+@media (max-width:760px){ dialog .nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:none;width:56px;height:48px} }
+/* shot frame fix */
+.shot button.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -174,7 +184,7 @@ body{padding-left:0;padding-right:0}
     <div><dt class="label">Role</dt><dd>Team Lead, Meta</dd></div>
     <div><dt class="label">Period</dt><dd>05/2023 – 11/2025</dd></div>
     <div><dt class="label">Team</dt><dd class="todo">N designers</dd></div>
-    <div><dt class="label">Features</dt><dd>7 owned</dd></div>
+    <div><dt class="label">Features</dt><dd>10 shown</dd></div>
   </dl>
 
   <section class="overview">
@@ -182,16 +192,19 @@ body{padding-left:0;padding-right:0}
     <p>Everything a player touches between matches. Each feature below follows the same order: the goal, what I designed, the result, and screenshots.</p>
     <ol class="toc">
       <li><a href="#construction"><span class="n">01</span><span><b>Robot Construction</b><span class="key">Key feature</span><span class="d">Build a unique robot and share it with other players</span></span><span class="go">↓</span></a></li>
-      <li><a href="#customisation"><span class="n">02</span><span><b>Robot Customisation</b><span class="d">Visual personalisation of the player's robot</span></span><span class="go">↓</span></a></li>
-      <li><a href="#hangar"><span class="n">03</span><span><b>Robot Hangar</b><span class="d">The player's hangar and the game start sequence</span></span><span class="go">↓</span></a></li>
-      <li><a href="#inventory"><span class="n">04</span><span><b>Inventory</b><span class="d">Filters, sorting and display priorities</span></span><span class="go">↓</span></a></li>
-      <li><a href="#menu"><span class="n">05</span><span><b>Main Menu &amp; Meta Navigation</b><span class="d">Tabs, buttons, promo windows and the player flow</span></span><span class="go">↓</span></a></li>
-      <li><a href="#tutorial"><span class="n">06</span><span><b>Tutorial</b><span class="d">Design and tuning of the first-time experience</span></span><span class="go">↓</span></a></li>
-      <li><a href="#postbattle"><span class="n">07</span><span><b>Post-Battle Screen</b><span class="d">Score, rewards and progression after each match</span></span><span class="go">↓</span></a></li>
+      <li><a href="#customisation"><span class="n">02</span><span><b>Robot Customisation</b><span class="d">Wraps, paint, stickers, decals and wear</span></span><span class="go">↓</span></a></li>
+      <li><a href="#stats"><span class="n">03</span><span><b>Robot Stats</b><span class="d">What each robot's numbers are and how players read them</span></span><span class="go">↓</span></a></li>
+      <li><a href="#pilots"><span class="n">04</span><span><b>Pilots</b><span class="d">Pilots, talents and pilot stories</span></span><span class="go">↓</span></a></li>
+      <li><a href="#craft"><span class="n">05</span><span><b>Craft, Upgrade &amp; Sell</b><span class="d">Crafting modules, upgrading them and selling extras</span></span><span class="go">↓</span></a></li>
+      <li><a href="#hangar"><span class="n">06</span><span><b>Robot Hangar</b><span class="d">The player's hangar and the game start sequence</span></span><span class="go">↓</span></a></li>
+      <li><a href="#inventory"><span class="n">07</span><span><b>Inventory</b><span class="d">Filters, sorting and display priorities</span></span><span class="go">↓</span></a></li>
+      <li><a href="#menu"><span class="n">08</span><span><b>Main Menu &amp; Meta Navigation</b><span class="d">Tabs, buttons, promo windows and the player flow</span></span><span class="go">↓</span></a></li>
+      <li><a href="#tutorial"><span class="n">09</span><span><b>Tutorial</b><span class="d">Design and tuning of the first-time experience</span></span><span class="go">↓</span></a></li>
+      <li><a href="#postbattle"><span class="n">10</span><span><b>Post-Battle Screen</b><span class="d">Score, rewards and progression after each match</span></span><span class="go">↓</span></a></li>
+      <li><a href="#more-screens"><span class="n">+</span><span><b>More screens</b><span class="d">Other parts of the meta</span></span><span class="go">↓</span></a></li>
     </ol>
   </section>
 
-  <!-- 01 -->
   <section class="feature" id="construction">
     <div class="head">
       <span class="label">Feature 01 · Key feature</span>
@@ -202,21 +215,29 @@ body{padding-left:0;padding-right:0}
       <div><h3>Goal</h3><p class="todo">Why the feature mattered: what player need it answered, what the team wanted from it (self-expression, depth, long-term retention).</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Owned the design</b> of the construction system end to end</li>
-        <li><b>Designed build sharing:</b> how players publish a robot and how others find and use it</li>
+        <li><b>Designed build sharing:</b> a player gets a code for a custom robot design, and others use it to load the build</li>
+        <li><b>Factory presets:</b> ready-made builds that show new players what a complete robot looks like</li>
         <li class="todo">Rules of assembly: slots, part types, constraints, balance between parts</li>
-        <li class="todo">UX of the builder: how a new player makes a first robot without getting lost</li>
       </ul></div>
       <div><h3>Result</h3><p class="todo">Metric or outcome: share of players who built a custom robot, number of shared builds, feedback from playtests.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/construction-1.jpg" alt="" data-optional><span class="ph">images/construction-1.jpg</span></button><figcaption>The robot builder.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/construction-2.jpg" alt="" data-optional><span class="ph">images/construction-2.jpg</span></button><figcaption>Choosing parts.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/construction-3.jpg" alt="" data-optional><span class="ph">images/construction-3.jpg</span></button><figcaption>Sharing a build.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-construction-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-01.jpg</span></button><figcaption>Workshop: the player's robot collection with key stats and factory presets.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-02.jpg</span></button><figcaption>Titans tab in the Workshop.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-03.jpg</span></button><figcaption>Customize Robot: every slot on one screen (chassis, shoulders, torso, weapons, pilot, gear) with live stats.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-04.jpg</span></button><figcaption>Choosing a right-shoulder module, with stat changes shown before installing.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-05.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-05.jpg</span></button><figcaption>Module details and its ability, right inside the builder.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-06.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-06.jpg</span></button><figcaption>Weapon selection, with a “where to get” hint for items the player doesn't own yet.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-07.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-07.jpg</span></button><figcaption>Empty and locked slots highlighted directly on the robot.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-08.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-08.jpg</span></button><figcaption>A newly assembled robot back in the Workshop.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-09.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-09.jpg</span></button><figcaption>Factory presets: ready-made builds with the list of modules they use.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-10.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-10.jpg</span></button><figcaption>Inspecting a preset and where to get each of its parts.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-construction-11.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-11.jpg</span></button><figcaption>Preview mode: zoom, move and rotate around the robot.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-construction-12.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-12.jpg</span></button><figcaption>Sharing a build: a code for the custom robot design.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 02 -->
   <section class="feature" id="customisation">
     <div class="head">
       <span class="label">Feature 02</span>
@@ -227,23 +248,103 @@ body{padding-left:0;padding-right:0}
       <div><h3>Goal</h3><p class="todo">What customisation had to achieve for players and for the game (expression, collection, monetization).</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed the customisation system</b> for the player's robot</li>
-        <li class="todo">What can be customised: paints, decals, parts appearance, etc.</li>
+        <li><b>Wraps</b> built from layers: paint per part, stickers, decals and wear &amp; tear</li>
         <li class="todo">How customisation items are earned or bought</li>
       </ul></div>
       <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/customisation-1.jpg" alt="" data-optional><span class="ph">images/customisation-1.jpg</span></button><figcaption>Customisation screen.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/customisation-2.jpg" alt="" data-optional><span class="ph">images/customisation-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/customisation-3.jpg" alt="" data-optional><span class="ph">images/customisation-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-customisation-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-01.jpg</span></button><figcaption>Swapping a left-shoulder module and previewing how it looks.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-02.jpg</span></button><figcaption>Wraps: the player's custom wraps and factory wraps.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-03.jpg</span></button><figcaption>Paint layer: colours with rarity, applied to the robot.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-04.jpg</span></button><figcaption>Stickers.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-05.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-05.jpg</span></button><figcaption>Decals.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-06.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-06.jpg</span></button><figcaption>Wear &amp; tear.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-07.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-07.jpg</span></button><figcaption>Previewing the finished look.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-08.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-08.jpg</span></button><figcaption>Creating a new wrap, painting part by part.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-customisation-09.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-09.jpg</span></button><figcaption>Applying a colour to the chassis.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 03 -->
-  <section class="feature" id="hangar">
+  <section class="feature" id="stats">
     <div class="head">
       <span class="label">Feature 03</span>
+      <h2>Robot Stats</h2>
+      <p class="lede">The parameters every robot and module has, how they are calculated, and how they are shown to the player.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What the stats had to do: make builds comparable at a glance and make each choice feel meaningful.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Designed robot parameters and equipment stats:</b> defined what stats each robot has</li>
+        <li><b>Defined how stats are calculated</b> from the modules a robot carries</li>
+        <li><b>Designed how stats are displayed</b>, including green and red changes when comparing parts</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-stats-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-01.jpg</span></button><figcaption>Full stats screen: class, weapon types, attack, defence, mobility, gear and pilot talents.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-stats-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-02.jpg</span></button><figcaption>Comparing shoulder modules: stat changes before installing.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-stats-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-03.jpg</span></button><figcaption>Comparing chassis.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-stats-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-04.jpg</span></button><figcaption>Comparing light weapons.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <section class="feature" id="pilots">
+    <div class="head">
+      <span class="label">Feature 04</span>
+      <h2>Pilots</h2>
+      <p class="lede">Every robot needs a pilot. Pilots bring talents that change how the robot plays, and each has a story of their own.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What pilots add to the game: another layer of build choices, collection and character.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Assigning a pilot</b> to a robot from the player's roster</li>
+        <li><b>Talents by rank:</b> a pilot unlocks and chooses talents as they level up</li>
+        <li><b>Pilot stories</b> that give each character a background</li>
+        <li class="todo">Your role in this feature and key decisions</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-pilots-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-01.jpg</span></button><figcaption>Assigning a pilot to a robot.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-pilots-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-02.jpg</span></button><figcaption>A pilot's talents by rank.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-pilots-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-03.jpg</span></button><figcaption>Choosing a talent.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-pilots-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-04.jpg</span></button><figcaption>Pilot roster with rarity and the robot each pilot is assigned to.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-pilots-05.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-05.jpg</span></button><figcaption>Pilot story.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <section class="feature" id="craft">
+    <div class="head">
+      <span class="label">Feature 05</span>
+      <h2>Craft, Upgrade &amp; Sell</h2>
+      <p class="lede">How players get new parts, make them stronger, and turn duplicates back into currency.</p>
+    </div>
+    <div class="text">
+      <div><h3>Goal</h3><p class="todo">What this loop had to do for the economy: give currency a purpose and keep progression steady.</p></div>
+      <div><h3>What I did</h3><ul>
+        <li><b>Crafting</b> modules straight from the builder</li>
+        <li><b>Upgrading</b> weapons and modules in the Warehouse, level by level</li>
+        <li><b>Selling</b> extra items for credits</li>
+        <li class="todo">Your role in this feature and key decisions</li>
+      </ul></div>
+      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-craft-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-01.jpg</span></button><figcaption>Crafting a module for the left shoulder.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-craft-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-02.jpg</span></button><figcaption>Crafting complete.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-craft-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-03.jpg</span></button><figcaption>Upgrading a weapon in the Warehouse.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-craft-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-04.jpg</span></button><figcaption>Selling an extra item.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <section class="feature" id="hangar">
+    <div class="head">
+      <span class="label">Feature 06</span>
       <h2>Robot Hangar</h2>
       <p class="lede">The player's hangar with their robots, and the animation sequence that plays when the game starts.</p>
     </div>
@@ -257,17 +358,15 @@ body{padding-left:0;padding-right:0}
       <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/hangar-1.jpg" alt="" data-optional><span class="ph">images/hangar-1.jpg</span></button><figcaption>The hangar.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/hangar-2.jpg" alt="" data-optional><span class="ph">images/hangar-2.jpg</span></button><figcaption>Start sequence storyboard or frame.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/hangar-3.jpg" alt="" data-optional><span class="ph">images/hangar-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-hangar-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-hangar-01.jpg</span></button><figcaption>The hangar: the player's robots on their stands.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-hangar-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-hangar-02.jpg</span></button><figcaption>Managing hangar slots: adding and removing robots.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 04 -->
   <section class="feature" id="inventory">
     <div class="head">
-      <span class="label">Feature 04</span>
+      <span class="label">Feature 07</span>
       <h2>Inventory</h2>
       <p class="lede">How players find the right part or item among everything they own.</p>
     </div>
@@ -281,17 +380,16 @@ body{padding-left:0;padding-right:0}
       <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/inventory-1.jpg" alt="" data-optional><span class="ph">images/inventory-1.jpg</span></button><figcaption>Inventory with filters.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/inventory-2.jpg" alt="" data-optional><span class="ph">images/inventory-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/inventory-3.jpg" alt="" data-optional><span class="ph">images/inventory-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-inventory-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-inventory-01.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-inventory-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-inventory-02.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-inventory-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-inventory-03.jpg</span></button><figcaption>Caption.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 05 -->
   <section class="feature" id="menu">
     <div class="head">
-      <span class="label">Feature 05</span>
+      <span class="label">Feature 08</span>
       <h2>Main Menu &amp; Meta Navigation</h2>
       <p class="lede">The structure of the main menu and the map of how a player moves through the meta game.</p>
     </div>
@@ -305,17 +403,15 @@ body{padding-left:0;padding-right:0}
       <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/menu-1.jpg" alt="" data-optional><span class="ph">images/menu-1.jpg</span></button><figcaption>Meta navigation scheme. A diagram from your design doc works well here.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/menu-2.jpg" alt="" data-optional><span class="ph">images/menu-2.jpg</span></button><figcaption>Main menu.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/menu-3.jpg" alt="" data-optional><span class="ph">images/menu-3.jpg</span></button><figcaption>Promo window.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-menu-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-menu-01.jpg</span></button><figcaption>Main menu: daily jobs, today's deals, unlock progress and the Play button.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-menu-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-menu-02.jpg</span></button><figcaption>Progress tab: profile level and league.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 06 -->
   <section class="feature" id="tutorial">
     <div class="head">
-      <span class="label">Feature 06</span>
+      <span class="label">Feature 09</span>
       <h2>Tutorial</h2>
       <p class="lede">The first-time experience: what a new player learns, in what order, and how quickly they reach their first real match.</p>
     </div>
@@ -323,23 +419,25 @@ body{padding-left:0;padding-right:0}
       <div><h3>Goal</h3><p class="todo">What the tutorial had to teach and which drop-off it was meant to fix.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Owned the tutorial:</b> design and tuning</li>
-        <li class="todo">Structure: steps, what is taught in battle vs in the meta</li>
+        <li><b>Taught the builder step by step:</b> payload and energy, what a battle-ready robot needs, auto-save</li>
         <li class="todo">How you tuned it: funnel analytics, playtests, iterations</li>
       </ul></div>
       <div><h3>Result</h3><p class="todo">Tutorial completion rate or early retention change.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/tutorial-1.jpg" alt="" data-optional><span class="ph">images/tutorial-1.jpg</span></button><figcaption>Tutorial flow or funnel.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/tutorial-2.jpg" alt="" data-optional><span class="ph">images/tutorial-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/tutorial-3.jpg" alt="" data-optional><span class="ph">images/tutorial-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-tutorial-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-01.jpg</span></button><figcaption>Introducing ranks and the league.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-tutorial-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-02.jpg</span></button><figcaption>Payload and energy explained inside the builder.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-tutorial-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-03.jpg</span></button><figcaption>The essentials: what a robot needs to be battle-ready.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-tutorial-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-04.jpg</span></button><figcaption>Auto-save explained.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-tutorial-05.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-05.jpg</span></button><figcaption>Sending the player to try the new robot in battle.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-tutorial-06.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-06.jpg</span></button><figcaption>Last step before the first match.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
 
-  <!-- 07 -->
   <section class="feature" id="postbattle">
     <div class="head">
-      <span class="label">Feature 07</span>
+      <span class="label">Feature 10</span>
       <h2>Post-Battle Screen</h2>
       <p class="lede">What the player sees after every match: score, rewards and progress toward their next goal.</p>
     </div>
@@ -347,15 +445,31 @@ body{padding-left:0;padding-right:0}
       <div><h3>Goal</h3><p class="todo">Why this screen matters: it closes every session loop and should push the player into the next match.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed score and reward calculation</b> shown after battle</li>
-        <li><b>Designed how progression is presented</b> on this screen</li>
+        <li><b>Designed how progression is presented</b>: pilot XP, profile XP, jobs, league and event pass, each on its own tab</li>
         <li class="todo">Order and timing of reveals, what is shown for a win vs a loss</li>
       </ul></div>
       <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
     </div>
     <div class="shots">
-      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/postbattle-1.jpg" alt="" data-optional><span class="ph">images/postbattle-1.jpg</span></button><figcaption>Post-battle screen.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/postbattle-2.jpg" alt="" data-optional><span class="ph">images/postbattle-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
-      <figure class="shot"><button type="button" class="ph-box"><img src="images/postbattle-3.jpg" alt="" data-optional><span class="ph">images/postbattle-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-postbattle-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-01.jpg</span></button><figcaption>Scoreboard and the player's impact points.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-02.jpg</span></button><figcaption>Battle results: credits, pilot XP, profile XP and new unlocks.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-03.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-03.jpg</span></button><figcaption>Jobs progress after the match.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-04.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-04.jpg</span></button><figcaption>League progress.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-05.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-05.jpg</span></button><figcaption>Event pass progress.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-06.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-06.jpg</span></button><figcaption>Per-robot details: kills, assists, repairs and damage.</figcaption></figure>
+      <figure class="shot"><button type="button" class="ph-box"><img src="images/wrf-postbattle-07.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-07.jpg</span></button><figcaption>Battle reward: credits and how to earn more.</figcaption></figure>
+    </div>
+    <a class="top" href="#top">↑ Overview</a>
+  </section>
+
+  <section class="feature" id="more-screens">
+    <div class="head">
+      <span class="label">Also in the meta</span>
+      <h2>More screens</h2>
+    </div>
+    <div class="shots">
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-other-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-other-01.jpg</span></button><figcaption>Email sign-up with a reward offer.</figcaption></figure>
+      <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-other-02.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-other-02.jpg</span></button><figcaption>Notifications and inbox.</figcaption></figure>
     </div>
     <a class="top" href="#top">↑ Overview</a>
   </section>
@@ -370,7 +484,9 @@ body{padding-left:0;padding-right:0}
 <dialog id="lightbox" aria-label="Screenshot">
   <div class="box">
     <button class="close" type="button" id="lb-close">Close ✕</button>
+    <button class="nav prev" type="button" id="lb-prev" aria-label="Previous screenshot">‹</button>
     <img id="lb-img" alt="">
+    <button class="nav next-btn" type="button" id="lb-next" aria-label="Next screenshot">›</button>
     <p id="lb-cap"></p>
   </div>
 </dialog>
@@ -389,15 +505,35 @@ document.querySelectorAll('img[data-optional]').forEach(function(img){
   if (img.complete){ img.naturalWidth > 0 ? ok() : drop(); }
 });
 var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img'), lbCap = document.getElementById('lb-cap');
+var lbList = [], lbIdx = 0;
+function lbShow(i){
+  lbIdx = (i + lbList.length) % lbList.length;
+  var b = lbList[lbIdx], img = b.querySelector('img');
+  lbImg.src = img.src;
+  lbCap.textContent = b.parentNode.querySelector('figcaption').textContent + '  (' + (lbIdx + 1) + ' / ' + lbList.length + ')';
+}
 document.querySelectorAll('.shot button').forEach(function(btn, i){
   btn.setAttribute('aria-label', 'Enlarge screenshot ' + (i + 1));
   btn.addEventListener('click', function(){
-    var img = btn.querySelector('img');
-    if (!img || !dlg.showModal) return;
-    lbImg.src = img.src;
-    lbCap.textContent = btn.parentNode.querySelector('figcaption').textContent;
+    if (!btn.querySelector('img') || !dlg.showModal) return;
+    var group = btn.closest('.shots');
+    lbList = Array.prototype.filter.call(group.querySelectorAll('.shot button'), function(b){ return b.querySelector('img'); });
+    lbShow(lbList.indexOf(btn));
+    dlg.classList.toggle('single', lbList.length < 2);
     dlg.showModal();
   });
+});
+document.getElementById('lb-prev').addEventListener('click', function(e){ e.stopPropagation(); lbShow(lbIdx - 1); });
+document.getElementById('lb-next').addEventListener('click', function(e){ e.stopPropagation(); lbShow(lbIdx + 1); });
+dlg.addEventListener('keydown', function(e){
+  if (e.key === 'ArrowLeft'){ lbShow(lbIdx - 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight'){ lbShow(lbIdx + 1); e.preventDefault(); }
+});
+var tx = null;
+dlg.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+dlg.addEventListener('touchend', function(e){
+  if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) > 50 && lbList.length > 1) lbShow(lbIdx + (dx < 0 ? 1 : -1));
 });
 document.getElementById('lb-close').addEventListener('click', function(){ dlg.close(); });
 dlg.addEventListener('click', function(e){ if (e.target === dlg || e.target.classList.contains('box')) dlg.close(); });
