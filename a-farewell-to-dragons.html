@@ -157,6 +157,21 @@ dialog.single .nav{display:none}
 @media (max-width:760px){ dialog .nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:none;width:56px;height:48px} }
 /* shot frame fix */
 .shot button.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
+/* v3: role summary + process */
+.role-summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:20px 48px;border-top:1px solid var(--line);padding-top:32px}
+.role-summary h2{font-size:clamp(26px,3vw,36px);line-height:1.05}
+.role-summary .rs-head{display:flex;flex-direction:column;gap:12px}
+.role-summary ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;max-width:78ch}
+.role-summary li{position:relative;padding-left:22px;color:var(--muted);font-size:17px;line-height:1.6}
+.role-summary li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--accent)}
+.process{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.process ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:step}
+.process li{counter-increment:step;font:500 12px var(--mono);color:var(--fg);border:1px solid var(--line);background:var(--surface);padding:6px 10px;display:inline-flex;gap:8px;align-items:center}
+.process li::before{content:counter(step,decimal-leading-zero);color:var(--accent)}
+@media (max-width:760px){
+  .role-summary{grid-template-columns:1fr;gap:16px;padding-top:24px}
+  .role-summary li{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -187,6 +202,14 @@ dialog.single .nav{display:none}
     <div><dt class="label">Platform</dt><dd>PC</dd></div>
   </dl>
 
+  <section class="role-summary">
+    <div class="rs-head"><span class="label">On this project</span><h2>My role</h2></div>
+    <ul>
+      <li>Designed enemy encounters, combat spaces and gameplay layouts.</li>
+      <li>Tuned mission pacing and difficulty around party balance and progression.</li>
+    </ul>
+  </section>
+
   <section class="feature" id="encounters">
     <div class="head">
       <span class="label">My work</span>
@@ -194,13 +217,11 @@ dialog.single .nav{display:none}
       <p class="lede">Where and how the party fights.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What problem this solved for players or for the team.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed enemy encounters</b> and combat spaces</li>
         <li><b>Designed mission pacing</b> with a focus on party balance and progression</li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
       </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric: what changed after this shipped.</p></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/a-farewell-to-dragons-encounters-1.jpg" alt="" data-optional><span class="ph">images/a-farewell-to-dragons-encounters-1.jpg</span></button><figcaption>Caption.</figcaption></figure>

@@ -157,6 +157,21 @@ dialog.single .nav{display:none}
 @media (max-width:760px){ dialog .nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:none;width:56px;height:48px} }
 /* shot frame fix */
 .shot button.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
+/* v3: role summary + process */
+.role-summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:20px 48px;border-top:1px solid var(--line);padding-top:32px}
+.role-summary h2{font-size:clamp(26px,3vw,36px);line-height:1.05}
+.role-summary .rs-head{display:flex;flex-direction:column;gap:12px}
+.role-summary ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;max-width:78ch}
+.role-summary li{position:relative;padding-left:22px;color:var(--muted);font-size:17px;line-height:1.6}
+.role-summary li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--accent)}
+.process{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.process ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:step}
+.process li{counter-increment:step;font:500 12px var(--mono);color:var(--fg);border:1px solid var(--line);background:var(--surface);padding:6px 10px;display:inline-flex;gap:8px;align-items:center}
+.process li::before{content:counter(step,decimal-leading-zero);color:var(--accent)}
+@media (max-width:760px){
+  .role-summary{grid-template-columns:1fr;gap:16px;padding-top:24px}
+  .role-summary li{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -187,9 +202,19 @@ dialog.single .nav{display:none}
     <div><dt class="label">Platform</dt><dd>Mobile</dd></div>
   </dl>
 
+  <section class="role-summary">
+    <div class="rs-head"><span class="label">On this project</span><h2>My role</h2></div>
+    <ul>
+      <li>Designed and implemented missions, progression, clan, city-building and multiplayer PvP features, including the attack, ranking and balance logic for clan-vs-clan PvP.</li>
+      <li>Worked hands-on in Unity: set up assets, enemy AI behavior and PvE levels, and handled game balance.</li>
+      <li>Authored design documentation and supported features through implementation and iteration with programmers, artists and UX designers.</li>
+      <li>Regularly deconstructed competitor features to benchmark systems and inform design decisions.</li>
+    </ul>
+  </section>
+
   <section class="overview">
     <h2>Overview</h2>
-    <p>Each block below follows the same order: the goal, what I did, the result, and screenshots.</p>
+    <p>Each block below shows what I did and how it looks in the game.</p>
     <ol class="toc">
       <li><a href="#pvp"><span class="n">01</span><span><b>PvP systems</b><span class="d">Player-vs-player attacks and competition.</span></span><span class="go">↓</span></a></li>
       <li><a href="#systems"><span class="n">02</span><span><b>Economy & supporting systems</b><span class="d">Systems that feed PvP and clan play.</span></span><span class="go">↓</span></a></li>
@@ -203,14 +228,13 @@ dialog.single .nav{display:none}
       <p class="lede">Player-vs-player attacks and competition.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What problem this solved for players or for the team.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed player-vs-player attacks</b></li>
         <li><b>Designed rankings and leaderboards</b></li>
         <li><b>Owned PvP balance</b></li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric: what changed after this shipped.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/iron-conquest-pvp-1.jpg" alt="" data-optional><span class="ph">images/iron-conquest-pvp-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
@@ -226,13 +250,12 @@ dialog.single .nav{display:none}
       <p class="lede">Systems that feed PvP and clan play.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What problem this solved for players or for the team.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed and shipped</b> missions, progression, clan and city-building systems</li>
         <li><b>Built them to reinforce</b> PvP and clan-based cooperative play</li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric: what changed after this shipped.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/iron-conquest-systems-1.jpg" alt="" data-optional><span class="ph">images/iron-conquest-systems-1.jpg</span></button><figcaption>Caption.</figcaption></figure>

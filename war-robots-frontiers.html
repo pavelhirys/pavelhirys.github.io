@@ -157,6 +157,21 @@ dialog.single .nav{display:none}
 @media (max-width:760px){ dialog .nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);transform:none;width:56px;height:48px} }
 /* shot frame fix */
 .shot button.ph-box{position:relative;overflow:hidden;display:grid;place-items:center;border:1px solid var(--line)}
+/* v3: role summary + process */
+.role-summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:20px 48px;border-top:1px solid var(--line);padding-top:32px}
+.role-summary h2{font-size:clamp(26px,3vw,36px);line-height:1.05}
+.role-summary .rs-head{display:flex;flex-direction:column;gap:12px}
+.role-summary ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;max-width:78ch}
+.role-summary li{position:relative;padding-left:22px;color:var(--muted);font-size:17px;line-height:1.6}
+.role-summary li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--accent)}
+.process{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.process ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:step}
+.process li{counter-increment:step;font:500 12px var(--mono);color:var(--fg);border:1px solid var(--line);background:var(--surface);padding:6px 10px;display:inline-flex;gap:8px;align-items:center}
+.process li::before{content:counter(step,decimal-leading-zero);color:var(--accent)}
+@media (max-width:760px){
+  .role-summary{grid-template-columns:1fr;gap:16px;padding-top:24px}
+  .role-summary li{font-size:16px}
+}
 </style>
 </head>
 <body>
@@ -187,9 +202,25 @@ dialog.single .nav{display:none}
     <div><dt class="label">Features</dt><dd>10 shown</dd></div>
   </dl>
 
+  <section class="role-summary">
+    <div class="rs-head"><span class="label">On this project</span><h2>My role</h2></div>
+    <ul>
+      <li>Led gameplay and meta-feature design for War Robots: Frontiers (PC/Console, Unreal Engine 5), a multiplayer third-person robot combat shooter: built the FTUE from scratch and owned progression, robot construction, customization and player loadout systems.</li>
+      <li>Designed robot parameters and equipment stats: what stats each robot has, how they are calculated, and how they are displayed to the player.</li>
+      <li>Owned the full feature lifecycle end to end: concept, prototyping in UE5 Blueprints, implementation and live iteration, including hands-on work on robot combat controls and movement feel.</li>
+      <li>Acted as Team Lead for the Meta Team, directing all meta-gameplay directions and running regular brainstorming and 1-1 sessions with designers.</li>
+      <li>Collaborated closely with engineering, art, UI/UX and production to deliver features on schedule, including screen mockups, flow and transition maps, and button-placement optimization for new UI.</li>
+      <li>Worked closely with the analytics team: wrote structured, metric-driven data requests and used the telemetry and playtest feedback to tune loadout balance and onboarding flow.</li>
+      <li>Worked on battle pass content and seasonal content rotation.</li>
+      <li>Contributed to sprint planning, prioritization and production alignment within a multidisciplinary team (Jira, Confluence).</li>
+    </ul>
+  </section>
+
+
+
   <section class="overview">
     <h2>Overview</h2>
-    <p>Everything a player touches between matches. Each feature below follows the same order: the goal, what I designed, the result, and screenshots.</p>
+    <p>I led the Meta Team on War Robots: Frontiers. Below are ten features I worked on, from the first robot a player builds to the rewards after every match. Tap any of them to jump straight to its screens.</p>
     <ol class="toc">
       <li><a href="#construction"><span class="n">01</span><span><b>Robot Construction</b><span class="key">Key feature</span><span class="d">Build a unique robot and share it with other players</span></span><span class="go">↓</span></a></li>
       <li><a href="#customisation"><span class="n">02</span><span><b>Robot Customisation</b><span class="d">Wraps, paint, stickers, decals and wear</span></span><span class="go">↓</span></a></li>
@@ -212,14 +243,13 @@ dialog.single .nav{display:none}
       <p class="lede">The core feature of the game: players assemble their own robot from parts and share their builds with others through the in-game sharing system.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">Why the feature mattered: what player need it answered, what the team wanted from it (self-expression, depth, long-term retention).</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Owned the design</b> of the construction system end to end</li>
         <li><b>Designed build sharing:</b> a player gets a code for a custom robot design, and others use it to load the build</li>
         <li><b>Factory presets:</b> ready-made builds that show new players what a complete robot looks like</li>
         <li class="todo">Rules of assembly: slots, part types, constraints, balance between parts</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Metric or outcome: share of players who built a custom robot, number of shared builds, feedback from playtests.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-construction-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-01.jpg</span></button><figcaption>Workshop: the player's robot collection with key stats and factory presets.</figcaption></figure>
@@ -245,13 +275,12 @@ dialog.single .nav{display:none}
       <p class="lede">The system that lets players change how their robot looks and make it recognisably theirs.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What customisation had to achieve for players and for the game (expression, collection, monetization).</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed the customisation system</b> for the player's robot</li>
         <li><b>Wraps</b> built from layers: paint per part, stickers, decals and wear &amp; tear</li>
         <li class="todo">How customisation items are earned or bought</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-customisation-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-01.jpg</span></button><figcaption>Swapping a left-shoulder module and previewing how it looks.</figcaption></figure>
@@ -274,13 +303,12 @@ dialog.single .nav{display:none}
       <p class="lede">The parameters every robot and module has, how they are calculated, and how they are shown to the player.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What the stats had to do: make builds comparable at a glance and make each choice feel meaningful.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed robot parameters and equipment stats:</b> defined what stats each robot has</li>
         <li><b>Defined how stats are calculated</b> from the modules a robot carries</li>
         <li><b>Designed how stats are displayed</b>, including green and red changes when comparing parts</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-stats-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-01.jpg</span></button><figcaption>Full stats screen: class, weapon types, attack, defence, mobility, gear and pilot talents.</figcaption></figure>
@@ -298,14 +326,12 @@ dialog.single .nav{display:none}
       <p class="lede">Every robot needs a pilot. Pilots bring talents that change how the robot plays, and each has a story of their own.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What pilots add to the game: another layer of build choices, collection and character.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Assigning a pilot</b> to a robot from the player's roster</li>
         <li><b>Talents by rank:</b> a pilot unlocks and chooses talents as they level up</li>
         <li><b>Pilot stories</b> that give each character a background</li>
-        <li class="todo">Your role in this feature and key decisions</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-pilots-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-01.jpg</span></button><figcaption>Assigning a pilot to a robot.</figcaption></figure>
@@ -324,14 +350,12 @@ dialog.single .nav{display:none}
       <p class="lede">How players get new parts, make them stronger, and turn duplicates back into currency.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What this loop had to do for the economy: give currency a purpose and keep progression steady.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Crafting</b> modules straight from the builder</li>
         <li><b>Upgrading</b> weapons and modules in the Warehouse, level by level</li>
         <li><b>Selling</b> extra items for credits</li>
-        <li class="todo">Your role in this feature and key decisions</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-craft-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-01.jpg</span></button><figcaption>Crafting a module for the left shoulder.</figcaption></figure>
@@ -349,13 +373,12 @@ dialog.single .nav{display:none}
       <p class="lede">The player's hangar with their robots, and the animation sequence that plays when the game starts.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What the hangar should make the player feel and do: show off their robots, get into a match quickly.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed the hangar</b> where players see and manage their robots</li>
         <li><b>Designed the start-up animation sequence</b> that leads the player into the game</li>
         <li class="todo">Details: camera, timing, what the player can interact with</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-hangar-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-hangar-01.jpg</span></button><figcaption>The hangar: the player's robots on their stands.</figcaption></figure>
@@ -371,13 +394,12 @@ dialog.single .nav{display:none}
       <p class="lede">How players find the right part or item among everything they own.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">The problem: e.g. a growing collection made items hard to find.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed filters</b> and sorting for the inventory</li>
         <li><b>Defined display priorities:</b> which items appear first and why</li>
         <li class="todo">Other rules: new-item markers, stacking, empty states</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-inventory-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-inventory-01.jpg</span></button><figcaption>Caption.</figcaption></figure>
@@ -394,13 +416,12 @@ dialog.single .nav{display:none}
       <p class="lede">The structure of the main menu and the map of how a player moves through the meta game.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What the menu had to balance: fast access to battle, visibility of offers and events, clarity for new players.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed the main menu:</b> all buttons and tabs</li>
         <li><b>Designed the promo windows</b> and when they appear</li>
         <li><b>Built the navigation scheme</b> of the player's movement through the meta</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-menu-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-menu-01.jpg</span></button><figcaption>Main menu: daily jobs, today's deals, unlock progress and the Play button.</figcaption></figure>
@@ -416,13 +437,12 @@ dialog.single .nav{display:none}
       <p class="lede">The first-time experience: what a new player learns, in what order, and how quickly they reach their first real match.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">What the tutorial had to teach and which drop-off it was meant to fix.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Owned the tutorial:</b> design and tuning</li>
         <li><b>Taught the builder step by step:</b> payload and energy, what a battle-ready robot needs, auto-save</li>
         <li class="todo">How you tuned it: funnel analytics, playtests, iterations</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Tutorial completion rate or early retention change.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-tutorial-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-01.jpg</span></button><figcaption>Introducing ranks and the league.</figcaption></figure>
@@ -442,13 +462,12 @@ dialog.single .nav{display:none}
       <p class="lede">What the player sees after every match: score, rewards and progress toward their next goal.</p>
     </div>
     <div class="text">
-      <div><h3>Goal</h3><p class="todo">Why this screen matters: it closes every session loop and should push the player into the next match.</p></div>
       <div><h3>What I did</h3><ul>
         <li><b>Designed score and reward calculation</b> shown after battle</li>
         <li><b>Designed how progression is presented</b>: pilot XP, profile XP, jobs, league and event pass, each on its own tab</li>
         <li class="todo">Order and timing of reveals, what is shown for a win vs a loss</li>
-      </ul></div>
-      <div><h3>Result</h3><p class="todo">Outcome or metric.</p></div>
+      </ul>
+      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-postbattle-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-01.jpg</span></button><figcaption>Scoreboard and the player's impact points.</figcaption></figure>
