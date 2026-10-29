@@ -172,6 +172,19 @@ dialog.single .nav{display:none}
   .role-summary{grid-template-columns:1fr;gap:16px;padding-top:24px}
   .role-summary li{font-size:16px}
 }
+/* v4: merged role + index, tighter features */
+.wrap>.feature{padding-top:36px}
+.wrap>.feature+.feature{margin-top:-32px}
+.role-summary .rs-toc{grid-column:1/-1;display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.role-summary .rs-toc .toc{border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .wrap>.feature{padding-top:28px}
+  .wrap>.feature+.feature{margin-top:-24px}
+  .role-summary .rs-toc{margin-top:12px}
+}
+/* v4 toc fix */
+.role-summary .toc li{padding-left:0;font-size:inherit;line-height:inherit;color:inherit}
+.role-summary .toc li::before{content:none}
 </style>
 </head>
 <body>

@@ -172,6 +172,19 @@ dialog.single .nav{display:none}
   .role-summary{grid-template-columns:1fr;gap:16px;padding-top:24px}
   .role-summary li{font-size:16px}
 }
+/* v4: merged role + index, tighter features */
+.wrap>.feature{padding-top:36px}
+.wrap>.feature+.feature{margin-top:-32px}
+.role-summary .rs-toc{grid-column:1/-1;display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.role-summary .rs-toc .toc{border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .wrap>.feature{padding-top:28px}
+  .wrap>.feature+.feature{margin-top:-24px}
+  .role-summary .rs-toc{margin-top:12px}
+}
+/* v4 toc fix */
+.role-summary .toc li{padding-left:0;font-size:inherit;line-height:inherit;color:inherit}
+.role-summary .toc li::before{content:none}
 </style>
 </head>
 <body>
@@ -209,16 +222,14 @@ dialog.single .nav{display:none}
       <li>Handled technical map configuration and optimization.</li>
       <li>Playtested and balanced new maps with the community, and shipped player-requested improvements.</li>
     </ul>
-  </section>
-
-  <section class="overview">
-    <h2>Overview</h2>
-    <p>Each block below shows what I did and how it looks in the game.</p>
+    <div class="rs-toc"><span class="label">Features on this page</span>
     <ol class="toc">
       <li><a href="#maps"><span class="n">01</span><span><b>Map design & documentation</b><span class="d">Battle maps for large-scale tank combat.</span></span><span class="go">↓</span></a></li>
       <li><a href="#balance"><span class="n">02</span><span><b>Combat balance with the community</b><span class="d">Tuning how maps play out in real battles.</span></span><span class="go">↓</span></a></li>
     </ol>
+    </div>
   </section>
+
 
   <section class="feature" id="maps">
     <div class="head">
@@ -238,7 +249,6 @@ dialog.single .nav{display:none}
       <figure class="shot"><button type="button" class="ph-box"><img src="images/world-of-tanks-maps-2.jpg" alt="" data-optional><span class="ph">images/world-of-tanks-maps-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
       <figure class="shot"><button type="button" class="ph-box"><img src="images/world-of-tanks-maps-3.jpg" alt="" data-optional><span class="ph">images/world-of-tanks-maps-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
     </div>
-    <a class="top" href="#top">↑ Overview</a>
   </section>
   <section class="feature" id="balance">
     <div class="head">
@@ -257,7 +267,6 @@ dialog.single .nav{display:none}
       <figure class="shot"><button type="button" class="ph-box"><img src="images/world-of-tanks-balance-2.jpg" alt="" data-optional><span class="ph">images/world-of-tanks-balance-2.jpg</span></button><figcaption>Caption.</figcaption></figure>
       <figure class="shot"><button type="button" class="ph-box"><img src="images/world-of-tanks-balance-3.jpg" alt="" data-optional><span class="ph">images/world-of-tanks-balance-3.jpg</span></button><figcaption>Caption.</figcaption></figure>
     </div>
-    <a class="top" href="#top">↑ Overview</a>
   </section>
 
   <div class="next">
