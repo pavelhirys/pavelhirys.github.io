@@ -185,6 +185,20 @@ dialog.single .nav{display:none}
 /* v4 toc fix */
 .role-summary .toc li{padding-left:0;font-size:inherit;line-height:inherit;color:inherit}
 .role-summary .toc li::before{content:none}
+/* v5b: stacked role, workflow phases */
+.role-summary{grid-template-columns:minmax(0,1fr);gap:18px}
+.role-summary .rs-head{gap:8px}
+.role-summary .rs-flow{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.phases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:step}
+.phases>li{border:1px solid var(--line);border-top:2px solid var(--accent);background:var(--surface);padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.phases h3{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);margin:0}
+.phases ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.role-summary .phases ol li{counter-increment:step;display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;padding-left:0;font-size:15px;line-height:1.45;color:var(--muted)}
+.role-summary .phases ol li::before{content:counter(step,decimal-leading-zero);position:static;width:auto;height:auto;background:none;font:500 12px/1.9 var(--mono);color:var(--accent)}
+.role-summary .phases>li::before{content:none}
+.role-summary .phases>li{padding-left:18px;font-size:inherit;color:inherit}
+@media (max-width:1000px){ .phases{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:560px){ .phases{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -227,6 +241,9 @@ dialog.single .nav{display:none}
       <li>Worked on battle pass content and seasonal content rotation.</li>
       <li>Contributed to sprint planning, prioritization and production alignment within a multidisciplinary team (Jira, Confluence).</li>
     </ul>
+    <div class="rs-flow"><span class="label">How I take every feature from idea to release</span>
+    <ol class="phases"><li><h3>Design</h3><ol><li>Design documentation</li><li>Flows and UX mockups with the UX designer</li><li>Presenting the feature to the project team</li></ol></li><li><h3>Planning</h3><ol><li>Breaking the feature down into tasks</li><li>Placing it on the roadmap</li><li>Planning and mapping dependencies</li><li>Writing tasks and assigning them</li></ol></li><li><h3>Production</h3><ol><li>Accepting finished tasks</li><li>Presenting builds to the producer and defending them</li></ol></li><li><h3>Validation</h3><ol><li>Internal playtests</li><li>Collecting feedback and prioritising fixes</li><li>Working with analytics</li></ol></li></ol>
+    </div>
     <div class="rs-toc"><span class="label">Features on this page</span>
     <ol class="toc">
       <li><a href="#construction"><span class="n">01</span><span><b>Robot Construction</b><span class="key">Key feature</span><span class="d">Build a unique robot and share it with other players</span></span><span class="go">↓</span></a></li>
@@ -252,6 +269,12 @@ dialog.single .nav{display:none}
 
 
 
+
+
+
+
+
+
   <section class="feature" id="construction">
     <div class="head">
       <span class="label">Feature 01 · Key feature</span>
@@ -264,8 +287,7 @@ dialog.single .nav{display:none}
         <li><b>Designed build sharing:</b> a player gets a code for a custom robot design, and others use it to load the build</li>
         <li><b>Factory presets:</b> ready-made builds that show new players what a complete robot looks like</li>
         <li class="todo">Rules of assembly: slots, part types, constraints, balance between parts</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-construction-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-construction-01.jpg</span></button><figcaption>Workshop: the player's robot collection with key stats and factory presets.</figcaption></figure>
@@ -294,8 +316,7 @@ dialog.single .nav{display:none}
         <li><b>Designed the customisation system</b> for the player's robot</li>
         <li><b>Wraps</b> built from layers: paint per part, stickers, decals and wear &amp; tear</li>
         <li class="todo">How customisation items are earned or bought</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-customisation-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-customisation-01.jpg</span></button><figcaption>Swapping a left-shoulder module and previewing how it looks.</figcaption></figure>
@@ -321,8 +342,7 @@ dialog.single .nav{display:none}
         <li><b>Designed robot parameters and equipment stats:</b> defined what stats each robot has</li>
         <li><b>Defined how stats are calculated</b> from the modules a robot carries</li>
         <li><b>Designed how stats are displayed</b>, including green and red changes when comparing parts</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-stats-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-stats-01.jpg</span></button><figcaption>Full stats screen: class, weapon types, attack, defence, mobility, gear and pilot talents.</figcaption></figure>
@@ -343,8 +363,7 @@ dialog.single .nav{display:none}
         <li><b>Assigning a pilot</b> to a robot from the player's roster</li>
         <li><b>Talents by rank:</b> a pilot unlocks and chooses talents as they level up</li>
         <li><b>Pilot stories</b> that give each character a background</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-pilots-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-pilots-01.jpg</span></button><figcaption>Assigning a pilot to a robot.</figcaption></figure>
@@ -366,8 +385,7 @@ dialog.single .nav{display:none}
         <li><b>Crafting</b> modules straight from the builder</li>
         <li><b>Upgrading</b> weapons and modules in the Warehouse, level by level</li>
         <li><b>Selling</b> extra items for credits</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-craft-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-craft-01.jpg</span></button><figcaption>Crafting a module for the left shoulder.</figcaption></figure>
@@ -388,8 +406,7 @@ dialog.single .nav{display:none}
         <li><b>Designed the hangar</b> where players see and manage their robots</li>
         <li><b>Designed the start-up animation sequence</b> that leads the player into the game</li>
         <li class="todo">Details: camera, timing, what the player can interact with</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-hangar-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-hangar-01.jpg</span></button><figcaption>The hangar: the player's robots on their stands.</figcaption></figure>
@@ -408,8 +425,7 @@ dialog.single .nav{display:none}
         <li><b>Designed filters</b> and sorting for the inventory</li>
         <li><b>Defined display priorities:</b> which items appear first and why</li>
         <li class="todo">Other rules: new-item markers, stacking, empty states</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-inventory-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-inventory-01.jpg</span></button><figcaption>Caption.</figcaption></figure>
@@ -429,8 +445,7 @@ dialog.single .nav{display:none}
         <li><b>Designed the main menu:</b> all buttons and tabs</li>
         <li><b>Designed the promo windows</b> and when they appear</li>
         <li><b>Built the navigation scheme</b> of the player's movement through the meta</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-menu-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-menu-01.jpg</span></button><figcaption>Main menu: daily jobs, today's deals, unlock progress and the Play button.</figcaption></figure>
@@ -449,8 +464,7 @@ dialog.single .nav{display:none}
         <li><b>Owned the tutorial:</b> design and tuning</li>
         <li><b>Taught the builder step by step:</b> payload and energy, what a battle-ready robot needs, auto-save</li>
         <li class="todo">How you tuned it: funnel analytics, playtests, iterations</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-tutorial-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-tutorial-01.jpg</span></button><figcaption>Introducing ranks and the league.</figcaption></figure>
@@ -473,8 +487,7 @@ dialog.single .nav{display:none}
         <li><b>Designed score and reward calculation</b> shown after battle</li>
         <li><b>Designed how progression is presented</b>: pilot XP, profile XP, jobs, league and event pass, each on its own tab</li>
         <li class="todo">Order and timing of reveals, what is shown for a win vs a loss</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/wrf-postbattle-01.jpg" alt="" loading="lazy" decoding="async" data-optional><span class="ph">images/wrf-postbattle-01.jpg</span></button><figcaption>Scoreboard and the player's impact points.</figcaption></figure>

@@ -185,6 +185,20 @@ dialog.single .nav{display:none}
 /* v4 toc fix */
 .role-summary .toc li{padding-left:0;font-size:inherit;line-height:inherit;color:inherit}
 .role-summary .toc li::before{content:none}
+/* v5b: stacked role, workflow phases */
+.role-summary{grid-template-columns:minmax(0,1fr);gap:18px}
+.role-summary .rs-head{gap:8px}
+.role-summary .rs-flow{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.phases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:step}
+.phases>li{border:1px solid var(--line);border-top:2px solid var(--accent);background:var(--surface);padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.phases h3{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);margin:0}
+.phases ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.role-summary .phases ol li{counter-increment:step;display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;padding-left:0;font-size:15px;line-height:1.45;color:var(--muted)}
+.role-summary .phases ol li::before{content:counter(step,decimal-leading-zero);position:static;width:auto;height:auto;background:none;font:500 12px/1.9 var(--mono);color:var(--accent)}
+.role-summary .phases>li::before{content:none}
+.role-summary .phases>li{padding-left:18px;font-size:inherit;color:inherit}
+@media (max-width:1000px){ .phases{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:560px){ .phases{grid-template-columns:1fr} }
 </style>
 </head>
 <body>

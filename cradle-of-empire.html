@@ -185,6 +185,20 @@ dialog.single .nav{display:none}
 /* v4 toc fix */
 .role-summary .toc li{padding-left:0;font-size:inherit;line-height:inherit;color:inherit}
 .role-summary .toc li::before{content:none}
+/* v5b: stacked role, workflow phases */
+.role-summary{grid-template-columns:minmax(0,1fr);gap:18px}
+.role-summary .rs-head{gap:8px}
+.role-summary .rs-flow{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.phases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:step}
+.phases>li{border:1px solid var(--line);border-top:2px solid var(--accent);background:var(--surface);padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.phases h3{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);margin:0}
+.phases ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.role-summary .phases ol li{counter-increment:step;display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;padding-left:0;font-size:15px;line-height:1.45;color:var(--muted)}
+.role-summary .phases ol li::before{content:counter(step,decimal-leading-zero);position:static;width:auto;height:auto;background:none;font:500 12px/1.9 var(--mono);color:var(--accent)}
+.role-summary .phases>li::before{content:none}
+.role-summary .phases>li{padding-left:18px;font-size:inherit;color:inherit}
+@media (max-width:1000px){ .phases{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:560px){ .phases{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -223,6 +237,9 @@ dialog.single .nav{display:none}
       <li>Prototyped a new Guild system and improved retention through iteration and A/B testing.</li>
       <li>Analyzed early-level churn and redesigned the FTUE, which improved early-game metrics.</li>
     </ul>
+    <div class="rs-flow"><span class="label">How I take every feature from idea to release</span>
+    <ol class="phases"><li><h3>Design</h3><ol><li>Design documentation</li><li>Flows and UX mockups with the UX designer</li><li>Presenting the feature to the project team</li></ol></li><li><h3>Planning</h3><ol><li>Breaking the feature down into tasks</li><li>Placing it on the roadmap</li><li>Planning and mapping dependencies</li><li>Writing tasks and assigning them</li></ol></li><li><h3>Production</h3><ol><li>Accepting finished tasks</li><li>Presenting builds to the producer and defending them</li></ol></li><li><h3>Validation</h3><ol><li>Internal playtests</li><li>Collecting feedback and prioritising fixes</li><li>Working with analytics</li></ol></li></ol>
+    </div>
     <div class="rs-toc"><span class="label">Features on this page</span>
     <ol class="toc">
       <li><a href="#progression"><span class="n">01</span><span><b>Progression, rewards & onboarding</b><span class="d">The early game and the reward loop.</span></span><span class="go">↓</span></a></li>
@@ -244,8 +261,7 @@ dialog.single .nav{display:none}
         <li><b>Owned progression, rewards and onboarding</b> as feature owner</li>
         <li><b>Analysed player behaviour and churn data</b> to refine the early-game experience through iteration and testing</li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/cradle-of-empire-progression-1.jpg" alt="" data-optional><span class="ph">images/cradle-of-empire-progression-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
@@ -263,8 +279,7 @@ dialog.single .nav{display:none}
       <div><h3>What I did</h3><ul>
         <li><b>Designed and implemented</b> the Star Gate event</li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/cradle-of-empire-stargate-1.jpg" alt="" data-optional><span class="ph">images/cradle-of-empire-stargate-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
@@ -282,8 +297,7 @@ dialog.single .nav{display:none}
       <div><h3>What I did</h3><ul>
         <li><b>Designed and implemented</b> the Win Streak event</li>
         <li class="todo">Add a detail: a key decision and why you made it</li>
-      </ul>
-      <div class="process"><span class="label">How it was built</span><ol><li>Feature design</li><li>Mockups with UX designers</li><li>Task breakdown with programmers</li><li>Sprint tasks</li><li>Acceptance</li><li>Playtest</li><li>Feedback &amp; priorities</li></ol></div></div>
+      </ul></div>
     </div>
     <div class="shots">
       <figure class="shot wide"><button type="button" class="ph-box"><img src="images/cradle-of-empire-winstreak-1.jpg" alt="" data-optional><span class="ph">images/cradle-of-empire-winstreak-1.jpg</span></button><figcaption>Caption.</figcaption></figure>
